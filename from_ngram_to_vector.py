@@ -28,14 +28,14 @@ def from_decagram_to_vector(ngram):
 		h7.append(hashes[6])
 		h8.append(hashes[7])
 	vector = []
-	vector.append(min(h1))
-	vector.append(min(h2))
-	vector.append(min(h3))
-	vector.append(min(h4))
-	vector.append(min(h5))
-	vector.append(min(h6))
-	vector.append(min(h7))
-	vector.append(min(h8))
+	vector.append(max(h1))
+	vector.append(max(h2))
+	vector.append(max(h3))
+	vector.append(max(h4))
+	vector.append(max(h5))
+	vector.append(max(h6))
+	vector.append(max(h7))
+	vector.append(max(h8))
 	return vector
 
 

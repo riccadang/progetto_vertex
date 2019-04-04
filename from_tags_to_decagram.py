@@ -40,4 +40,8 @@ def hash_functions(html):
     h8 = int(hashlib.blake2b(html.encode('utf-8')).hexdigest(), 16) % 255
     return (h1,h2,h3,h4,h5,h6,h7,h8)
 
-hash_functions("ciao come va che dici")
+#hash_functions("ciao come va che dici")
+
+if __name__ == '__main__':
+    stringa = "stringa di prova"
+
