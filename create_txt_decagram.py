@@ -48,21 +48,11 @@ if __name__ == '__main__':
 					file.write("\t" + str(grams_list[element]))
 				file.write("\t" + str(grams_list[len(grams_list)-1])+"\n")
 
-
 				STOP = STOP+1
 				if STOP==3000:
 					break
 			except requests.exceptions.RequestException as e:
 				print(e)
 
-			if STOP%10==0:
-				print ("salvo")
-				with open("write.json", "w") as f:
-					json.dump(ngram_json, f, indent=3)
 
-
-
-
-	with open("write.json", "w") as f:
-		json.dump(ngram_json,f,indent=3)
 
