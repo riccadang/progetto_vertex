@@ -17,8 +17,6 @@ try:
     for i in tags:
        stringa = stringa + " " +(i.name)
     stringa = stringa[1:]
-
-    print (stringa)
     n = 10
     decagram = ngrams(stringa.split(),n)
 
