@@ -29,7 +29,6 @@ if __name__ == '__main__':
                 for i in tags:
                     stringa = stringa + " " + (i.name)
                 stringa = stringa[1:]
-
                 n_grammi = 10
                 decagram = ngrams(stringa.split(), n_grammi)
 
