@@ -46,4 +46,7 @@ if __name__ == '__main__':
 	seven_eight_io = generate_seven_eight(vettore)
 	all_masked = all_masked+six_eight_io
 	all_masked = all_masked+seven_eight_io
+	for i in all_masked:
+		print(i)
+		print("\n")
 
