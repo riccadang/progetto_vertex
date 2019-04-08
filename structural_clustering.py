@@ -70,19 +70,36 @@ def second_part_riccardo(dict):
         #PER OGNI RICOPRENTE != max_cover, DIMINUISCI IL SUO VALORE
         #DENTRO IL DIZIONARIO DICT CON IL VALORE DI eight_vector
         for cover_vector in covering_vector:
-            print (cover_vector,max_cover,eight_vector)
-            #if (covering_vector[0]!=max_cover[0]):
-
-                #dict[cover_vector[0]]=dict[covering_vector[0]]-[eight_vector[1]]
-
-
+            print (cover_vector,type(cover_vector),max_cover,type(max_cover),eight_vector,type(eight_vector), dict[cover_vector[0]],type(dict[cover_vector[0]]))
+            if (cover_vector[0]!=max_cover[0]):
+                #print(str(dict[cover_vector[0]])+' - '+str(eight_vector[1]))
+                val = dict[cover_vector[0]]
+                dict[cover_vector[0]] = val - eight_vector[1]
+                if (dict[cover_vector[0]] == 0):
+                    dict.pop(cover_vector[0])
     return dict
+
+#third part
+def third_part(dict):
+    clusters = defaultdict(list)
+    for key, value in dict:
+        clusters[key] = []
+    file = open("page_vector_elena.txt", "r", encoding='utf-8')
+    vectors = []
+    for x in file:
+        tmp = x.rstrip('\n').split(sep='\t')
+        vectors.append(tmp[1])
+    for vector in vectors:
+        key = masked_service.get_max_masked_vectors_that_covers_vector_riccardo(vector)
+        clusters[]
 
 
 if __name__ == '__main__':
     dict = first_part()
     print (dict)
-    #dict_normalized = second_part(dict, "page_vector_elena.txt")
-    #print (dict_normalized)
-    #dict = second_part_riccardo(dict)
-    #print (dict)
+
+    dict = second_part_riccardo(dict)
+    print (dict)
+
+    #dict = third_part(dict)
+    #print(dict)

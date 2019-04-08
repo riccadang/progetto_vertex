@@ -38,6 +38,17 @@ def get_masked_vectors_that_covers_vector_riccardo(eight_eight_vector, vector):
                 covering[key]=value
     return covering
 
+def get_max_masked_vectors_that_covers_vector_riccardo(eight_eight_vector, dict):
+    covering = {}
+    max = 0
+    for key, value in dict.items():
+        if (eight_eight_vector!=key):
+            if check_if_cover(key, eight_eight_vector):
+                covering[key]=value
+                if value > max:
+                    max=value
+    key = max(dict.items(), key = lambda x: x[1])
+    return covering
 
 def check_if_cover(eight_eight_vector,masked_vector):
     bool = True
