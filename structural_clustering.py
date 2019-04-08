@@ -2,6 +2,7 @@ from collections import defaultdict
 import generate_masked_vector
 from tqdm import tqdm
 import masked_shingle_vector_service as masked_service
+import clustering_corretto as clustering
 
 def create_masked(vector):
     all_masked = []
@@ -29,31 +30,11 @@ def first_part():
             dict[masked]= dict[masked]+1
     return dict
 
-#SECOND PART
-# def second_part(dict, pages):
-#     dict_masked_covered = defaultdict(int)
-#     file = open(pages, "r", encoding='utf-8')
-#     vectors = []
-#     #get vectors
-#     for x in file:
-#         tmp = x.rstrip('\n').split(sep='\t')
-#         vectors.append(tmp[1])
-#     #for each vector get the set of masked shingle vectors that covers it an decrement their counts except the leader one (the one with the most counts)
-#     for vector in vectors:
-#         dict_masked_covered = masked_service.get_masked_vectors_that_covers_vector(dict, vector)
-#         dict_masked_covered = masked_service.decrement_counts(dict_masked_covered)
-#         #update the dictionary of masked shingle vectors
-#         for key, value in dict_masked_covered:
-#             dict[key] = value
-#     return dict
-
-
-
 #SECONDA FASE CORRETTA:
 def second_part_riccardo(dict):
     #TROVO TUTTI GLI 8/8
     eight_eight_dict = {}
-    for chiave,valore in dict.items():
+    for chiave,valore in dict:
         if chiave.find("*")==-1:
             eight_eight_dict[chiave]=valore
     #LI ORDINO: DA QUELLO CON MENO OCCORRENZR A PIU' OCCORRENZE
@@ -74,7 +55,7 @@ def second_part_riccardo(dict):
             if (cover_vector[0]!=max_cover[0]):
                 #print(str(dict[cover_vector[0]])+' - '+str(eight_vector[1]))
                 val = dict[cover_vector[0]]
-                dict[cover_vector[0]] = val - eight_vector[1]
+                dict[cover_vector[0]] = val - [eight_vector[1]]
                 if (dict[cover_vector[0]] == 0):
                     dict.pop(cover_vector[0])
     return dict
@@ -88,18 +69,19 @@ def third_part(dict):
     vectors = []
     for x in file:
         tmp = x.rstrip('\n').split(sep='\t')
-        vectors.append(tmp[1])
+        vectors.append(tmp)
     for vector in vectors:
-        key = masked_service.get_max_masked_vectors_that_covers_vector_riccardo(vector)
-        clusters[]
+        key = masked_service.get_max_masked_vectors_that_covers_vector_riccardo(vector[1], dict)
+        clusters[key].add(vector[0])
+    return clusters
 
 
 if __name__ == '__main__':
-    dict = first_part()
+    dict = clustering.first_part()
     print (dict)
 
     dict = second_part_riccardo(dict)
     print (dict)
 
-    #dict = third_part(dict)
-    #print(dict)
+    dict = third_part(dict)
+    print(dict)
