@@ -3,6 +3,7 @@ import generate_masked_vector
 from tqdm import tqdm
 import masked_shingle_vector_service as masked_service
 import clustering_corretto as clustering
+import list_service
 
 def create_masked(vector):
     all_masked = []
@@ -31,16 +32,18 @@ def first_part():
     return dict
 
 #SECONDA FASE CORRETTA:
-def second_part_riccardo(dict):
+def second_part_riccardo(list):
     #TROVO TUTTI GLI 8/8
-    eight_eight_dict = {}
-    for chiave,valore in dict:
-        if chiave.find("*")==-1:
-            eight_eight_dict[chiave]=valore
+    eight_eight_list = []
+    for chiave,valore in list:
+        if "*" in chiave:
+            eight_eight_list = list_service.update_value(eight_eight_list, (chiave, valore))
+            # eight_eight_dict[chiave]=valore
     #LI ORDINO: DA QUELLO CON MENO OCCORRENZR A PIU' OCCORRENZE
-    eight_eight_dict =  sorted(eight_eight_dict.items(), key=lambda x: x[1])
+    eight_eight_list = sorted(list, key = lambda x: x[1])
+    # eight_eight_dict =  sorted(eight_eight_dict.items(), key=lambda x: x[1])
     #PER OGNI 8/8:
-    for eight_vector in eight_eight_dict:
+    for eight_vector in eight_eight_list:
         #TROVO I VETTORI CHE LO COPRONO
         covering_vector = masked_service.get_masked_vectors_that_covers_vector_riccardo(eight_vector[0],dict)
 
@@ -60,8 +63,9 @@ def second_part_riccardo(dict):
                     dict.pop(cover_vector[0])
     return dict
 
+
 #third part
-def third_part(dict):
+def third_part(list):
     clusters = defaultdict(list)
     for key, value in dict:
         clusters[key] = []
@@ -71,17 +75,30 @@ def third_part(dict):
         tmp = x.rstrip('\n').split(sep='\t')
         vectors.append(tmp)
     for vector in vectors:
+        print("eccoci")
         key = masked_service.get_max_masked_vectors_that_covers_vector_riccardo(vector[1], dict)
         clusters[key].add(vector[0])
     return clusters
 
+def third_part_corretta(all_masked):
+    clusters = defaultdict(list)
+    file = open("page_vector_elena.txt", "r", encoding='utf-8')
+    vectors = []
+    for x in file:
+        tmp = x.rstrip('\n').split(sep='\t')
+        vectors.append(tmp[1])
+
+    for i in tqdm(vectors):
+        i = i.replace('[', '').replace(']', '').replace(',', "").split()
+        key = masked_service.get_max_masked_vectors_that_covers_vector_riccardo(i, all_masked)
+        clusters[key].append(i)
+
 
 if __name__ == '__main__':
-    dict = clustering.first_part()
-    print (dict)
-
-    dict = second_part_riccardo(dict)
-    print (dict)
-
-    dict = third_part(dict)
-    print(dict)
+    list1 = clustering.first_part()
+    for i in list1:
+        print(i)
+    dict = third_part_corretta(list1)
+    for i in dict :
+        print(i)
+        print("\n")

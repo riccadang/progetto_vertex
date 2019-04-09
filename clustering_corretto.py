@@ -13,7 +13,9 @@ def create_masked(vector):
 
 
 def first_part():
-	file = open("page_vector_elena.txt", "r", encoding='utf-8')
+	#file = open("page_vector_elena.txt", "r", encoding='utf-8')
+	file = open("prova.txt", "r", encoding='utf-8')
+
 	vectors = []
 	TABLE_H = []
 
@@ -22,12 +24,16 @@ def first_part():
 	for x in file:
 		tmp = x.rstrip('\n').split(sep='\t')
 		vectors.append(tmp[1])
+	'''per ogni vettore delle pagine P'''
 	for i in tqdm(vectors):
 		i = i.replace('[', '').replace(']', '').replace(',', "").split()
+		'''calcola tutti i masked shingle vectors'''
 		all_masked = create_masked(i)
+		'''per ogni masked shingle vector'''
 		for masked in all_masked:
+			'''se è presente nelle chiavi incrementa il contatore, altrimenti aggiungilo alle chiavi 
+			e inizializzalo ad 1'''
 			if masked in KEY:
-
 				index = KEY.index(masked)
 				VALUE[index] = VALUE[index]+1
 			else:
