@@ -78,10 +78,10 @@ def second_part(TABLE_H):
 def third_part_corretta(all_masked):
 	clusters = defaultdict(list)
 	#file = open("page_vector_elena.txt", "r", encoding='utf-8')
-	file = open("p", "r", encoding='utf-8')
+	file = open("page_vector_elena.txt", "r", encoding='utf-8')
 	vectors = []
 	for x in file:
-		tmp = x.rstrip('\n').split(sep=';')#'\t')
+		tmp = x.rstrip('\n').split(sep='\t')
 		vectors.append(tmp[1])
 
 	for i in tqdm(vectors):
@@ -96,14 +96,14 @@ if __name__ == '__main__':
 	TABLE_H = first_part()
 
 	#VETTORE PER FARE PROVE:
-	TABLE_H = [(["1","2","3","4"],8),(["*","2","3","4"],2),(["0","2","3","4"],5),(["*","2","3","*"],6)]
+	#TABLE_H = [(["1","2","3","4"],8),(["*","2","3","4"],2),(["0","2","3","4"],5),(["*","2","3","*"],6)]
 
 	#table_copy = TABLE_H.copy()
 	#print ("=====")
 	TABLE_H_UPDATED = second_part(TABLE_H)
 	h = third_part_corretta(TABLE_H_UPDATED)
-	for i in h:
-		print(i)
+	for key, value in h.items():
+		print(key +" "+str(value))
 	#for i in range(0,len(TABLE_H)):
 		#print (table_copy[i],TABLE_H_UPDATED[i])
 

@@ -15,6 +15,4 @@ def find_all_covering_vectors(TABLE_H,eight_vector):
 		vector = TABLE_H[i][0]
 		if check_if_is_cover(vector, eight_vector):
 			covers_vector.append((TABLE_H[i]))
-	print(covers_vector)
-	print("dwhcjndwskljcsd")
 	return covers_vector
