@@ -2,7 +2,7 @@ from tqdm import tqdm
 import generate_masked_vector
 from collections import defaultdict
 import clustering_service_corretto
-
+import masked_shingle_vector_service as masked_service
 def create_masked(vector):
     all_masked = []
     all_masked.append(vector)
@@ -15,7 +15,7 @@ def create_masked(vector):
 
 def first_part():
 	#file = open("page_vector_elena.txt", "r", encoding='utf-8')
-	file = open("prova.txt", "r", encoding='utf-8')
+	file = open("page_vector_elena.txt", "r", encoding='utf-8')
 
 	vectors = []
 	TABLE_H = []
@@ -75,7 +75,20 @@ def second_part(TABLE_H):
 				TABLE_H[index[0]] = (all_covering_vectors_tuple[i][0],all_covering_vectors_tuple[i][1]-eight_vector_tuple[1])
 	return (TABLE_H)
 
+def third_part_corretta(all_masked):
+	clusters = defaultdict(list)
+	#file = open("page_vector_elena.txt", "r", encoding='utf-8')
+	file = open("p", "r", encoding='utf-8')
+	vectors = []
+	for x in file:
+		tmp = x.rstrip('\n').split(sep=';')#'\t')
+		vectors.append(tmp[1])
 
+	for i in tqdm(vectors):
+		i = i.replace('[', '').replace(']', '').replace(',', "").split()
+		key = masked_service.get_max_masked_vectors_that_covers_vector(i, all_masked)
+		clusters[key].append(i)
+	return clusters
 
 
 if __name__ == '__main__':
@@ -83,11 +96,14 @@ if __name__ == '__main__':
 	TABLE_H = first_part()
 
 	#VETTORE PER FARE PROVE:
-	#TABLE_H = [(["1","2","3","4"],8),(["*","2","3","4"],2),(["0","2","3","4"],5),(["*","2","3","*"],6)]
+	TABLE_H = [(["1","2","3","4"],8),(["*","2","3","4"],2),(["0","2","3","4"],5),(["*","2","3","*"],6)]
 
 	#table_copy = TABLE_H.copy()
 	#print ("=====")
 	TABLE_H_UPDATED = second_part(TABLE_H)
+	h = third_part_corretta(TABLE_H_UPDATED)
+	for i in h:
+		print(i)
 	#for i in range(0,len(TABLE_H)):
 		#print (table_copy[i],TABLE_H_UPDATED[i])
 
